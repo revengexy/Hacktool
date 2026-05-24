@@ -1,0 +1,140 @@
+## requirements.txt
+
+```txt
+requests
+pillow
+colorama
+```
+
+## Gelişmiş Özellikler
+
+### config.json
+
+```json
+{
+  "timeout": 5,
+  "max_threads": 100,
+  "log_level": "INFO"
+}
+```
+
+### argparse CLI Sistemi
+
+```python
+import argparse
+
+parser = argparse.ArgumentParser(description="Security Toolkit")
+
+parser.add_argument("--scan", help="IP adresi tara")
+parser.add_argument("--metadata", help="Metadata analiz et")
+parser.add_argument("--url", help="URL durum kontrolü")
+
+args = parser.parse_args()
+
+if args.scan:
+    print(f"Tarama başlatıldı: {args.scan}")
+```
+
+### WHOIS Lookup
+
+```python
+import socket
+
+
+def dns_lookup():
+    domain = input("Domain: ")
+
+    try:
+        ip = socket.gethostbyname(domain)
+        print(f"IP: {ip}")
+
+    except Exception as e:
+        print(e)
+```
+
+### HTTP Header Analyzer
+
+```python
+import requests
+
+
+def header_analyzer():
+    url = input("URL: ")
+
+    try:
+        r = requests.get(url, timeout=5)
+
+        print("
+=== HEADERS ===
+")
+
+        for k, v in r.headers.items():
+            print(f"{k}: {v}")
+
+    except Exception as e:
+        print(e)
+```
+
+### Hash Generator
+
+```python
+import hashlib
+
+
+def hash_generator():
+    text = input("Metin: ")
+
+    print("MD5 :", hashlib.md5(text.encode()).hexdigest())
+    print("SHA1:", hashlib.sha1(text.encode()).hexdigest())
+    print("SHA256:", hashlib.sha256(text.encode()).hexdigest())
+```
+
+### Base64 Encoder / Decoder
+
+```python
+import base64
+
+
+def base64_tool():
+    text = input("Metin: ")
+
+    encoded = base64.b64encode(text.encode()).decode()
+    decoded = base64.b64decode(encoded).decode()
+
+    print("Encoded:", encoded)
+    print("Decoded:", decoded)
+```
+
+### JSON Export Sistemi
+
+```python
+import json
+
+
+def save_json(data, filename="output.json"):
+    with open(filename, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=4)
+```
+
+### Önerilen Proje Yapısı
+
+```text
+security-toolkit/
+│
+├── core/
+│   ├── logger.py
+│   ├── config.py
+│   └── utils.py
+│
+├── modules/
+│   ├── scanner.py
+│   ├── metadata.py
+│   ├── dns.py
+│   ├── headers.py
+│   └── hash_tools.py
+│
+├── data/
+├── logs/
+├── config.json
+├── requirements.txt
+└── main.py
